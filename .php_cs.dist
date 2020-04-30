@@ -1,0 +1,16 @@
+<?php
+
+$finder = PhpCsFixer\Finder::create()
+    ->in([__DIR__.'/src', __DIR__.'/tests', __DIR__.'/config'])
+    ->append([__DIR__.'/bin/console', __DIR__.'/public/index.php']);
+
+
+return PhpCsFixer\Config::create()
+    ->setRules(
+        [
+            '@PSR2' => true,
+            '@Symfony' => true,
+        ]
+    )
+    ->setFinder($finder)
+    ->setCacheFile(__DIR__.'/var/cache/.php_cs.cache');
