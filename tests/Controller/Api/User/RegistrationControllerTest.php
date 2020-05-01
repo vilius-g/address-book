@@ -4,6 +4,7 @@ namespace App\Tests\Controller\Api\User;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
+use function json_decode;
 
 class RegistrationControllerTest extends WebTestCase
 {
@@ -33,5 +34,13 @@ class RegistrationControllerTest extends WebTestCase
 
         self::assertResponseStatusCodeSame(Response::HTTP_BAD_REQUEST);
         self::assertResponseHeaderSame('Content-Type', 'application/json');
+
+        $decoded = json_decode($client->getResponse()->getContent(), true, 512, JSON_THROW_ON_ERROR);
+
+        self::assertArrayHasKey('errors', $decoded);
+        self::assertNotEmpty($decoded['errors']);
+        self::assertIsArray($decoded['errors'][0]);
+        self::assertNotEmpty($decoded['errors'][0]['origin']);
+        self::assertNotEmpty($decoded['errors'][0]['message']);
     }
 }
