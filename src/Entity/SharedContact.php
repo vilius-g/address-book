@@ -7,7 +7,16 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     attributes={"security"="is_granted('ROLE_USER')"},
+ *     collectionOperations={
+ *         "get",
+ *         "post"={"security"="is_granted('ROLE_ADMIN') or object.getOwner() == user"}
+ *     },
+ *     itemOperations={
+ *         "get"={"security"="is_granted('ROLE_ADMIN') or object.getSharedWith() == user or object.getOwner() == user"},
+ *         "delete"={"security"="is_granted('ROLE_ADMIN') or object.getSharedWith() == user or object.getOwner() == user"},
+ *     })
  * @ORM\Entity(repositoryClass="App\Repository\SharedContactRepository")
  * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(columns={"contact_id", "shared_with_id"})})
  * @UniqueEntity({"contact", "sharedWith"})
@@ -22,7 +31,7 @@ class SharedContact
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Contact", inversedBy="sharedContacts")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Contact", inversedBy="sharedContacts", fetch="EAGER")
      * @ORM\JoinColumn(nullable=false)
      */
     private $contact;
@@ -41,6 +50,11 @@ class SharedContact
     public function getContact(): ?Contact
     {
         return $this->contact;
+    }
+
+    public function getOwner(): ?User
+    {
+        return $this->getContact()->getOwner();
     }
 
     public function setContact(?Contact $contact): self
