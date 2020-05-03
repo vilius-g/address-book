@@ -12,7 +12,7 @@ class InfoController extends AbstractController
     /**
      * @param TokenStorageInterface $storage
      * @return JsonResponse
-     * @Route("/api/user/info", methods={"GET"})
+     * @Route("/api/whoami", methods={"GET"})
      */
     public function __invoke(TokenStorageInterface $storage): JsonResponse
     {

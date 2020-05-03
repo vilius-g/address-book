@@ -14,12 +14,13 @@ class RegistrationControllerTest extends WebTestCase
 
         $client->request(
             'POST',
-            '/api/user/register',
+            '/api/register',
             ['email' => 'test@example.com', 'password' => 'password1']
         );
 
         self::assertResponseIsSuccessful();
         self::assertResponseHeaderSame('Content-Type', 'application/json');
+        self::assertResponseHasCookie('PHPSESSID');
     }
 
     public function testRegistrationError(): void
@@ -28,7 +29,7 @@ class RegistrationControllerTest extends WebTestCase
 
         $client->request(
             'POST',
-            '/api/user/register',
+            '/api/register',
             ['email' => '', 'password' => 'password1']
         );
 

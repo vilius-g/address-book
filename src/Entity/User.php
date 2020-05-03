@@ -6,10 +6,25 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * @ApiResource(
+ *     attributes={"security"="is_granted('ROLE_ADMIN')"},
+ *     collectionOperations={
+ *         "get",
+ *     },
+ *     itemOperations={
+ *         "get"={"security"="is_granted('ROLE_ADMIN') or object == user"},
+ *         "delete"={"security"="is_granted('ROLE_ADMIN') or object == user"},
+ *         "patch"={"security"="is_granted('ROLE_ADMIN') or object == user"},
+ *     },
+ *     normalizationContext={"groups"={"user:output"}},
+ *     denormalizationContext={"groups"={"user:input"}}
+ *     )
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @UniqueEntity("email")
  */
@@ -19,6 +34,7 @@ class User implements UserInterface
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"user:output"})
      */
     private $id;
 
@@ -26,11 +42,13 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=180, unique=true)
      * @Assert\NotBlank()
      * @Assert\Email()
+     * @Groups({"user:input","user:output"})
      */
     private $email;
 
     /**
      * @ORM\Column(type="json")
+     * @Groups({"user:output"})
      */
     private $roles = [];
 
@@ -38,16 +56,19 @@ class User implements UserInterface
      * @var string The hashed password
      * @ORM\Column(type="string")
      * @Assert\NotBlank()
+     * @Groups({"user:input"})
      */
     private $password;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Contact", mappedBy="owner")
+     * @Groups({"user:output"})
      */
     private $contacts;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\SharedContact", mappedBy="sharedWith")
+     * @Groups({"user:output"})
      */
     private $sharedContacts;
 

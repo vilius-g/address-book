@@ -17,7 +17,7 @@ use function iterator_to_array;
 class RegistrationController extends AbstractController
 {
     /**
-     * @Route("/api/user/register", methods={"POST"})
+     * @Route("/api/register", methods={"POST"})
      */
     public function __invoke(
         Request $request,

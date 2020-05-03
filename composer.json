@@ -17,10 +17,10 @@
         "symfony/yaml": "5.0.*"
     },
     "require-dev": {
+        "ext-json": "*",
         "symfony/browser-kit": "5.0.*",
         "symfony/maker-bundle": "^1.15",
-        "symfony/phpunit-bridge": "^5.0",
-        "ext-json": "*"
+        "symfony/phpunit-bridge": "^5.0"
     },
     "config": {
         "preferred-install": {
