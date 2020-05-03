@@ -2,12 +2,16 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @ApiResource()
  */
 class User implements UserInterface
 {
@@ -36,6 +40,22 @@ class User implements UserInterface
      * @Assert\NotBlank()
      */
     private $password;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Contact", mappedBy="owner")
+     */
+    private $contacts;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\SharedContact", mappedBy="sharedWith")
+     */
+    private $sharedContacts;
+
+    public function __construct()
+    {
+        $this->contacts = new ArrayCollection();
+        $this->sharedContacts = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -113,5 +133,21 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection|Contact[]
+     */
+    public function getContacts(): Collection
+    {
+        return $this->contacts;
+    }
+
+    /**
+     * @return Collection|SharedContact[]
+     */
+    public function getSharedContacts(): Collection
+    {
+        return $this->sharedContacts;
     }
 }
