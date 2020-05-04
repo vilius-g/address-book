@@ -17,7 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     attributes={"security"="is_granted('ROLE_ADMIN')"},
  *     collectionOperations={
  *         "get",
- *         "post"={"security"="true"}
+ *         "post"={"security"="true","validation_groups"={"Default", "create"}}
  *     },
  *     itemOperations={
  *         "get"={"security"="is_granted('ROLE_ADMIN') or object == user"},
@@ -57,7 +57,7 @@ class User implements UserInterface
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(groups={"update"})
      */
     private $password;
 
@@ -65,6 +65,7 @@ class User implements UserInterface
      * @var string Plain password (for setting one)
      * @Groups({"user:input"})
      * @SerializedName("password")
+     * @Assert\NotBlank(groups={"create"})
      */
     private $passwordPlain;
 
@@ -186,5 +187,13 @@ class User implements UserInterface
     public function getPasswordPlain(): ?string
     {
         return $this->passwordPlain;
+    }
+
+    /**
+     * @param string $passwordPlain
+     */
+    public function setPasswordPlain(string $passwordPlain): void
+    {
+        $this->passwordPlain = $passwordPlain;
     }
 }

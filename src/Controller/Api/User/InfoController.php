@@ -2,21 +2,26 @@
 
 namespace App\Controller\Api\User;
 
+use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Security;
+use function assert;
 
 class InfoController extends AbstractController
 {
     /**
-     * @param TokenStorageInterface $storage
+     * @param Security $security
      * @return JsonResponse
      * @Route("/api/whoami", methods={"GET"})
      */
-    public function __invoke(TokenStorageInterface $storage): JsonResponse
+    public function __invoke(Security $security): JsonResponse
     {
-        $user = $storage->getToken()->getUser();
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        $user = $security->getUser();
+        assert($user instanceof User);
 
         return $this->json(['id' => $user->getId(), 'email' => $user->getUsername()]);
     }

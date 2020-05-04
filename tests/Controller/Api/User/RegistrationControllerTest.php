@@ -2,12 +2,10 @@
 
 namespace App\Tests\Controller\Api\User;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase;
 use Symfony\Component\HttpFoundation\Response;
-use function json_decode;
-use function json_encode;
 
-class RegistrationControllerTest extends WebTestCase
+class RegistrationControllerTest extends ApiTestCase
 {
     public function testRegistrationOk(): void
     {
@@ -15,18 +13,23 @@ class RegistrationControllerTest extends WebTestCase
 
         $client->request(
             'POST',
-            '/api/register',
-            [],
-            [],
-            [
-                'CONTENT_TYPE' => 'application/json',
-            ],
-            json_encode(['email' => 'test@example.com', 'password' => 'password1'])
+            '/api/users',
+            ['json' => ['email' => 'test1@example.com', 'password' => 'password1']]
         );
 
         self::assertResponseIsSuccessful();
-        self::assertResponseHeaderSame('Content-Type', 'application/json');
-        self::assertResponseHasCookie('PHPSESSID');
+        self::assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+
+        // Test that the user has been authenticated.
+        $client->request(
+            'GET',
+            '/api/whoami'
+        );
+
+        self::assertResponseIsSuccessful();
+        self::assertResponseHeaderSame('content-type', 'application/json');
+
+        self::assertJsonContains(['email' => 'test1@example.com']);
     }
 
     public function testRegistrationError(): void
@@ -35,24 +38,11 @@ class RegistrationControllerTest extends WebTestCase
 
         $client->request(
             'POST',
-            '/api/register',
-            [],
-            [],
-            [
-                'CONTENT_TYPE' => 'application/json',
-            ],
-            json_encode(['email' => '', 'password' => 'password1'])
+            '/api/users',
+            ['json' => ['email' => '', 'password' => 'password1']]
         );
 
         self::assertResponseStatusCodeSame(Response::HTTP_BAD_REQUEST);
-        self::assertResponseHeaderSame('Content-Type', 'application/json');
-
-        $decoded = json_decode($client->getResponse()->getContent(), true, 512, JSON_THROW_ON_ERROR);
-
-        self::assertArrayHasKey('errors', $decoded);
-        self::assertNotEmpty($decoded['errors']);
-        self::assertIsArray($decoded['errors'][0]);
-        self::assertNotEmpty($decoded['errors'][0]['origin']);
-        self::assertNotEmpty($decoded['errors'][0]['message']);
+        self::assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
     }
 }
