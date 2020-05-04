@@ -11,6 +11,16 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 class PhoneNumberValidator extends ConstraintValidator
 {
     /**
+     * @var PhoneNumberUtil
+     */
+    private $phoneNumberUtil;
+
+    public function __construct(PhoneNumberUtil $phoneNumberUtil)
+    {
+        $this->phoneNumberUtil = $phoneNumberUtil;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function validate($value, Constraint $constraint)
@@ -24,10 +34,8 @@ class PhoneNumberValidator extends ConstraintValidator
             return;
         }
 
-        $phoneUtil = PhoneNumberUtil::getInstance();
-
         try {
-            $phone = $phoneUtil->parse($value);
+            $phone = $this->phoneNumberUtil->parse($value);
         } /** @noinspection BadExceptionsProcessingInspection */ catch (NumberParseException $e) {
             $this->context->buildViolation($constraint->invalidNumberMessage)
                 ->setParameter('{{ value }}', $value)
@@ -37,7 +45,7 @@ class PhoneNumberValidator extends ConstraintValidator
             return;
         }
 
-        if (!$phoneUtil->isValidNumber($phone)) {
+        if (!$this->phoneNumberUtil->isValidNumber($phone)) {
             $this->context->buildViolation($constraint->invalidNumberMessage)
                 ->setParameter('{{ value }}', $value)
                 ->setCode($constraint::INVALID_PHONE_ERROR)

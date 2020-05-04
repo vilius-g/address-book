@@ -2,6 +2,7 @@
 
 namespace App\Validator\Constraints;
 
+use libphonenumber\PhoneNumberUtil;
 use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 use function array_merge;
 
@@ -12,7 +13,7 @@ class PhoneNumberValidatorTest extends ConstraintValidatorTestCase
 {
     protected function createValidator(): PhoneNumberValidator
     {
-        return new PhoneNumberValidator();
+        return new PhoneNumberValidator(PhoneNumberUtil::getInstance());
     }
 
     public function testNullIsValid(): void

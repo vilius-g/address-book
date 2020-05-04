@@ -32,3 +32,10 @@ services:
         decorates: 'api_platform.swagger.normalizer.documentation'
         arguments: ['@App\Swagger\SwaggerDecorator.inner']
         autoconfigure: false
+
+    App\Serializer\ContactAttributeNormalizer:
+        tags:
+            - { name: 'serializer.normalizer', priority: 64 }
+
+    libphonenumber\PhoneNumberUtil:
+        factory: '\libphonenumber\PhoneNumberUtil::getInstance'
