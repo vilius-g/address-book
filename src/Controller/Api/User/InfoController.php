@@ -16,7 +16,9 @@ class InfoController extends AbstractController
      */
     public function __invoke(TokenStorageInterface $storage): JsonResponse
     {
-        return $this->json(['email' => $storage->getToken()->getUser()->getUsername()]);
+        $user = $storage->getToken()->getUser();
+
+        return $this->json(['id' => $user->getId(), 'email' => $user->getUsername()]);
     }
 
 }
