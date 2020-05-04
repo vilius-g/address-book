@@ -83,7 +83,7 @@ class FullWorkflowTest extends ApiTestCase
         $decoded = json_decode($client->getResponse()->getContent(), true, 512, JSON_THROW_ON_ERROR);
         self::assertEquals(1, $decoded['hydra:totalItems'], 'Receiving user should see shared contacts list.');
         $sharedContactId1 = $decoded['hydra:member'][0]['@id'];
-        $contactId1 = $decoded['hydra:member'][0]['contact'];
+        $contactId1 = $decoded['hydra:member'][0]['contact']['@id'];
 
         // Test single shared contact retrieval.
         $client->request('GET', $contactId1);

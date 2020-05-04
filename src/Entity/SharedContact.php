@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource(
@@ -16,7 +17,10 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *     itemOperations={
  *         "get"={"security"="is_granted('ROLE_ADMIN') or object.getSharedWith() == user or object.getOwner() == user"},
  *         "delete"={"security"="is_granted('ROLE_ADMIN') or object.getSharedWith() == user or object.getOwner() == user"},
- *     })
+ *     },
+ *     normalizationContext={"groups"={"shared:output"}},
+ *     denormalizationContext={"groups"={"shared:input"}}
+ *     )
  * @ORM\Entity(repositoryClass="App\Repository\SharedContactRepository")
  * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(columns={"contact_id", "shared_with_id"})})
  * @UniqueEntity({"contact", "sharedWith"})
@@ -27,18 +31,21 @@ class SharedContact
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"shared:output", "shared:input"})
      */
     private $id;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Contact", inversedBy="sharedContacts", fetch="EAGER")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"shared:output", "shared:input"})
      */
     private $contact;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"shared:output", "shared:input"})
      */
     private $sharedWith;
 

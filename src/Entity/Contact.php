@@ -45,14 +45,14 @@ class Contact
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"contact:input", "contact:output"})
+     * @Groups({"contact:input", "contact:output", "shared:output"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=32)
      * @PhoneNumber()
-     * @Groups({"contact:input", "contact:output"})
+     * @Groups({"contact:input", "contact:output", "shared:output"})
      */
     private $phone;
 
