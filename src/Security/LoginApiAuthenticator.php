@@ -16,6 +16,8 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
 use Symfony\Component\Security\Guard\PasswordAuthenticatedInterface;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
+use function json_decode;
+use const JSON_THROW_ON_ERROR;
 
 class LoginApiAuthenticator extends AbstractGuardAuthenticator implements PasswordAuthenticatedInterface
 {
@@ -80,9 +82,11 @@ class LoginApiAuthenticator extends AbstractGuardAuthenticator implements Passwo
 
     public function getCredentials(Request $request)
     {
+        $decoded = json_decode($request->getContent(), true, 2, JSON_THROW_ON_ERROR);
+
         return [
-            'email' => $request->request->get('email'),
-            'password' => $request->request->get('password'),
+            'email' => $decoded['email'],
+            'password' => $decoded['password'],
             //'csrf_token' => $request->request->get('_csrf_token'),
         ];
     }
@@ -119,6 +123,8 @@ class LoginApiAuthenticator extends AbstractGuardAuthenticator implements Passwo
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
-        return new JsonResponse(['email' => $token->getUser()->getUsername()]);
+        $user = $token->getUser();
+
+        return new JsonResponse(['id' => $user->getId(), 'email' => $user->getUsername()]);
     }
 }
