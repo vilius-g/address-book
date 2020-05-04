@@ -31,14 +31,16 @@ class UserRegistrationSubscriber implements EventSubscriberInterface, ServiceSub
     }
 
     /**
-     * Automatically login user after creating one.
+     * Automatically authenticate user after creating one.
+     *
+     * Only works the first time, repeated calls will create new users but will not change authenticated one.
      *
      * @param ViewEvent $event
      */
     public function loginUser(ViewEvent $event): void
     {
-        if ($this->security()->isGranted('ROLE_ADMIN')) {
-            // Skip this altogether for authenticated admins.
+        if ($this->security()->isGranted('ROLE_USER')) {
+            // Skip this altogether for authenticated users.
             return;
         }
 
