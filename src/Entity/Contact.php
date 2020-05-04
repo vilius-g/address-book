@@ -38,9 +38,9 @@ class Contact
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="contacts")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups({"contact:input", "contact:output"})
+     * @Groups({"contact:input", "contact:output", "shared:output"})
      */
     private $owner;
 

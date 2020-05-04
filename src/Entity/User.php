@@ -52,7 +52,7 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=180, unique=true)
      * @Assert\NotBlank()
      * @Assert\Email()
-     * @Groups({"user:input","user:output"})
+     * @Groups({"user:input","user:output","shared:output"})
      */
     private $email;
 
