@@ -90,6 +90,7 @@ docker-compose run php-test bin/phpunit
 
 ## Potential improvements
 
+ * Add user interface (not done due to time constraints.)
  * Email confirmation after registration.
  * Notifications after contact is shared/unshared (need email sending configured.)
  * More strict uniqueness requirements for contacts (currently allows duplicate records.)

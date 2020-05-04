@@ -22,12 +22,6 @@ services:
       - .env.local
     volumes:
       - db-data:/var/lib/mysql
-  node:
-    image: node:latest
-    command: yarn watch
-    volumes:
-      - .:/var/www/html
-    working_dir: /var/www/html
   php-test:
     build:
       context: .docker/php

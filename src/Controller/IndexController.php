@@ -13,6 +13,6 @@ class IndexController extends AbstractController
      */
     public function __invoke(): Response
     {
-        return $this->render('index.html.twig', ['entrypoint' => 'http://localhost:8000/api']);
+        return $this->redirect('/api');
     }
 }
