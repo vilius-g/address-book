@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -68,24 +66,6 @@ class User implements UserInterface
      * @Assert\NotBlank(groups={"create"})
      */
     private $passwordPlain;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Contact", mappedBy="owner")
-     * @Groups({"user:output"})
-     */
-    private $contacts;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\SharedContact", mappedBy="sharedWith")
-     * @Groups({"user:output"})
-     */
-    private $sharedContacts;
-
-    public function __construct()
-    {
-        $this->contacts = new ArrayCollection();
-        $this->sharedContacts = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -162,23 +142,7 @@ class User implements UserInterface
     public function eraseCredentials()
     {
         // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
-    }
-
-    /**
-     * @return Collection|Contact[]
-     */
-    public function getContacts(): Collection
-    {
-        return $this->contacts;
-    }
-
-    /**
-     * @return Collection|SharedContact[]
-     */
-    public function getSharedContacts(): Collection
-    {
-        return $this->sharedContacts;
+        $this->passwordPlain = null;
     }
 
     /**

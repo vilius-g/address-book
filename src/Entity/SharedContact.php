@@ -11,7 +11,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *     attributes={"security"="is_granted('ROLE_USER')"},
  *     collectionOperations={
  *         "get",
- *         "post"={"security"="is_granted('ROLE_ADMIN') or object.getOwner() == user"}
+ *         "post"={"security_post_denormalize"="is_granted('ROLE_ADMIN') or object.getOwner() == user"}
  *     },
  *     itemOperations={
  *         "get"={"security"="is_granted('ROLE_ADMIN') or object.getSharedWith() == user or object.getOwner() == user"},
@@ -37,7 +37,7 @@ class SharedContact
     private $contact;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="sharedContacts")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
      * @ORM\JoinColumn(nullable=false)
      */
     private $sharedWith;
