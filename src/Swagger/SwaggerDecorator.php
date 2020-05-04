@@ -45,11 +45,16 @@ class SwaggerDecorator implements NormalizerInterface
                 ],
             ],
         ];
-        $docs['components']['schemas']['UserEmail'] = [
+        $docs['components']['schemas']['ShareWithEmail'] = [
             'type' => 'object',
             'properties' => [
-                'email' => [
-                    'type' => 'string',
+                'sharedWith' => [
+                    'type' => 'object',
+                    'properties' => [
+                        'email' => [
+                            'type' => 'string',
+                        ],
+                    ],
                 ],
             ],
         ];
@@ -121,7 +126,7 @@ class SwaggerDecorator implements NormalizerInterface
                             'content' => [
                                 'application/json' => [
                                     'schema' => [
-                                        '$ref' => '#/components/schemas/UserEmail',
+                                        '$ref' => '#/components/schemas/ShareWithEmail',
                                     ],
                                 ],
                             ],

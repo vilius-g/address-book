@@ -42,12 +42,13 @@ class ShareController extends AbstractController
             throw $this->createAccessDeniedException();
         }
 
-        $decoded = json_decode($request->getContent(), true, 2, JSON_THROW_ON_ERROR);
+        $decoded = json_decode($request->getContent(), true, 3, JSON_THROW_ON_ERROR);
 
-        $otherUser = $em->getRepository(User::class)->findOneBy(['email' => $decoded['email']]);
+        $email = $decoded['sharedWith']['email'];
+        $otherUser = $em->getRepository(User::class)->findOneBy(['email' => $email]);
 
         if (null === $otherUser) {
-            throw new BadRequestHttpException("User {$decoded['email']} not found.");
+            throw new BadRequestHttpException("User {$email} not found.");
         }
 
         // Create shared contact.
