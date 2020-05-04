@@ -82,16 +82,6 @@ class SwaggerDecorator implements NormalizerInterface
                         'tags' => ['Authentication'],
                         'operationId' => 'logout',
                         'summary' => 'Logout from the system.',
-                        //'requestBody' => [
-                        //    'description' => 'User credentials',
-                        //    'content' => [
-                        //        'application/json' => [
-                        //            'schema' => [
-                        //                '$ref' => '#/components/schemas/Credentials',
-                        //            ],
-                        //        ],
-                        //    ],
-                        //],
                         'responses' => [
                             Response::HTTP_OK => [
                                 'description' => 'Get user details',
@@ -105,7 +95,7 @@ class SwaggerDecorator implements NormalizerInterface
                             ],
                         ],
                     ],
-                ],
+                ]
             ],
         ];
 

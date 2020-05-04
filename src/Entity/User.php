@@ -18,7 +18,17 @@ use Symfony\Component\Validator\Constraints as Assert;
  *         "post"={"security"="true","validation_groups"={"Default", "create"}}
  *     },
  *     itemOperations={
- *         "get"={"security"="is_granted('ROLE_ADMIN') or object == user"},
+ *         "get"={"security"="is_granted('ROLE_ADMIN') or object == user", "requirements"={"id"="\d+"}},
+ *         "get_me"={
+ *             "method"="GET",
+ *             "path"="/users/me",
+ *             "controller"=\App\Controller\Api\User\InfoController::class,
+ *             "openapi_context"={
+ *                 "parameters"={}
+ *             },
+ *             "read"=false,
+ *             "security"="is_granted('ROLE_USER')"
+ *         },
  *         "delete"={"security"="is_granted('ROLE_ADMIN') or object == user"},
  *         "patch"={"security"="is_granted('ROLE_ADMIN') or object == user"},
  *     },
