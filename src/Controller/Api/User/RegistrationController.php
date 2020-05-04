@@ -13,6 +13,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use function array_map;
 use function iterator_to_array;
+use function json_decode;
 
 class RegistrationController extends AbstractController
 {
@@ -26,7 +27,7 @@ class RegistrationController extends AbstractController
         UserPasswordEncoderInterface $passwordEncoder
     ): Response {
         $form = $this->createForm(UserRegistrationType::class, null, ['csrf_protection' => false]);
-        $form->submit($request->request->all());
+        $form->submit(json_decode($request->getContent(), true));
 
         // Validate submitted data.
         if (!$form->isSubmitted() || !$form->isValid()) {

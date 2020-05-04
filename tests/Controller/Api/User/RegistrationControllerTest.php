@@ -5,6 +5,7 @@ namespace App\Tests\Controller\Api\User;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use function json_decode;
+use function json_encode;
 
 class RegistrationControllerTest extends WebTestCase
 {
@@ -15,7 +16,12 @@ class RegistrationControllerTest extends WebTestCase
         $client->request(
             'POST',
             '/api/register',
-            ['email' => 'test@example.com', 'password' => 'password1']
+            [],
+            [],
+            [
+                'CONTENT_TYPE' => 'application/json',
+            ],
+            json_encode(['email' => 'test@example.com', 'password' => 'password1'])
         );
 
         self::assertResponseIsSuccessful();
@@ -30,7 +36,12 @@ class RegistrationControllerTest extends WebTestCase
         $client->request(
             'POST',
             '/api/register',
-            ['email' => '', 'password' => 'password1']
+            [],
+            [],
+            [
+                'CONTENT_TYPE' => 'application/json',
+            ],
+            json_encode(['email' => '', 'password' => 'password1'])
         );
 
         self::assertResponseStatusCodeSame(Response::HTTP_BAD_REQUEST);

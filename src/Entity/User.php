@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -16,6 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     attributes={"security"="is_granted('ROLE_ADMIN')"},
  *     collectionOperations={
  *         "get",
+ *         "post"={"security"="true"}
  *     },
  *     itemOperations={
  *         "get"={"security"="is_granted('ROLE_ADMIN') or object == user"},
@@ -56,9 +58,15 @@ class User implements UserInterface
      * @var string The hashed password
      * @ORM\Column(type="string")
      * @Assert\NotBlank()
-     * @Groups({"user:input"})
      */
     private $password;
+
+    /**
+     * @var string Plain password (for setting one)
+     * @Groups({"user:input"})
+     * @SerializedName("password")
+     */
+    private $passwordPlain;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Contact", mappedBy="owner")
@@ -170,5 +178,13 @@ class User implements UserInterface
     public function getSharedContacts(): Collection
     {
         return $this->sharedContacts;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPasswordPlain(): ?string
+    {
+        return $this->passwordPlain;
     }
 }
