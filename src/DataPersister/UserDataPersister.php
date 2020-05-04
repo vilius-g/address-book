@@ -33,7 +33,7 @@ class UserDataPersister implements ContextAwareDataPersisterInterface
     public function persist($data, array $context = [])
     {
         // Encode password for storage.
-        if (($passwordPlain = $data->getPasswordPlain())) {
+        if (($data instanceof User) && ($passwordPlain = $data->getPasswordPlain())) {
             $data->setPassword(
                 $this->userPasswordEncoder->encodePassword($data, $passwordPlain)
             );
