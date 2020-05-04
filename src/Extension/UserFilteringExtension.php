@@ -7,23 +7,18 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use App\Entity\Contact;
 use App\Entity\SharedContact;
 use Doctrine\ORM\QueryBuilder;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\Security;
 
 class UserFilteringExtension implements QueryCollectionExtensionInterface
 {
     /**
-     * @var TokenStorageInterface
+     * @var Security
      */
-    private $tokenStorage;
+    private $security;
 
-    /**
-     * UserFilteringExtension constructor.
-     * @param TokenStorageInterface $tokenStorage
-     */
-    public function __construct(TokenStorageInterface $tokenStorage)
+    public function __construct(Security $security)
     {
-        $this->tokenStorage = $tokenStorage;
+        $this->security = $security;
     }
 
     public function applyToCollection(
@@ -31,19 +26,20 @@ class UserFilteringExtension implements QueryCollectionExtensionInterface
         QueryNameGeneratorInterface $queryNameGenerator,
         string $resourceClass,
         string $operationName = null
-    ) {
+    )
+    {
+        if ($this->security->isGranted('ROLE_ADMIN')) // allow all for admin.
+        {
+            return;
+        }
+
         if (Contact::class === $resourceClass) {
             $queryBuilder->where('o.owner = :user')
-                ->setParameter(':user', $this->getUser());
+                ->setParameter(':user', $this->security->getUser());
         } elseif (SharedContact::class === $resourceClass) {
             $queryBuilder->innerJoin(Contact::class, 'c')
                 ->where('o.sharedWith = :user or c.owner = :user')
-                ->setParameter(':user', $this->getUser());
+                ->setParameter(':user', $this->security->getUser());
         }
-    }
-
-    private function getUser(): ?UserInterface
-    {
-        return $this->tokenStorage->getToken()->getUser();
     }
 }
