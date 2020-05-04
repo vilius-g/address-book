@@ -86,11 +86,13 @@ class ContactAttributeNormalizer implements ContextAwareNormalizerInterface, Nor
      */
     public function denormalize($data, string $type, string $format = null, array $context = [])
     {
-        // Normalize phone format for storage.
-        $data['phone'] = $this->phoneDataTransformer->transform($data['phone']);
+        if (array_key_exists('phone', $data)) {
+            // Normalize phone format for storage.
+            $data['phone'] = $this->phoneDataTransformer->transform($data['phone']);
+        }
 
-        // Fill-in missing owner.
-        if (!array_key_exists('owner', $data)) {
+        if (!array_key_exists('owner', $data) && $this->isItemCreationOperation($context)) {
+            // Fill-in missing owner from session.
             $data['owner'] = $this->iriConverter->getIriFromItem($this->security->getUser());
         }
 
@@ -98,5 +100,17 @@ class ContactAttributeNormalizer implements ContextAwareNormalizerInterface, Nor
         $context[self::ALREADY_CALLED] = true;
 
         return $this->denormalizer->denormalize($data, $type, $format, $context);
+    }
+
+    /**
+     * Is current API operation creating a new item.
+     *
+     * @param array $context
+     * @return bool
+     */
+    private function isItemCreationOperation(array $context): bool
+    {
+        return ('collection' === $context['operation_type'] && 'post' === $context['collection_operation_name']) ||
+            ('item' === $context['operation_type'] && 'put' === $context['item_operation_name']);
     }
 }
