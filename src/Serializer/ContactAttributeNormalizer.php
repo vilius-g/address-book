@@ -1,17 +1,18 @@
 <?php
 
-
 namespace App\Serializer;
 
-
+use ApiPlatform\Core\Api\IriConverterInterface;
 use App\DataTransformer\PhoneDataTransformer;
 use App\Entity\Contact;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Serializer\Normalizer\ContextAwareDenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\ContextAwareNormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
+use function array_key_exists;
 
 class ContactAttributeNormalizer implements ContextAwareNormalizerInterface, NormalizerAwareInterface, ContextAwareDenormalizerInterface, DenormalizerAwareInterface
 {
@@ -23,14 +24,23 @@ class ContactAttributeNormalizer implements ContextAwareNormalizerInterface, Nor
      * @var PhoneDataTransformer
      */
     private $phoneDataTransformer;
-
     /**
-     * ContactNormalizer constructor.
-     * @param PhoneDataTransformer $phoneDataTransformer
+     * @var Security
      */
-    public function __construct(PhoneDataTransformer $phoneDataTransformer)
-    {
+    private $security;
+    /**
+     * @var IriConverterInterface
+     */
+    private $iriConverter;
+
+    public function __construct(
+        PhoneDataTransformer $phoneDataTransformer,
+        Security $security,
+        IriConverterInterface $iriConverter
+    ) {
         $this->phoneDataTransformer = $phoneDataTransformer;
+        $this->security = $security;
+        $this->iriConverter = $iriConverter;
     }
 
     /**
@@ -78,6 +88,13 @@ class ContactAttributeNormalizer implements ContextAwareNormalizerInterface, Nor
     {
         // Normalize phone format for storage.
         $data['phone'] = $this->phoneDataTransformer->transform($data['phone']);
+
+        // Fill-in missing owner.
+        if (!array_key_exists('owner', $data)) {
+            $data['owner'] = $this->iriConverter->getIriFromItem($this->security->getUser());
+        }
+
+        // Do not execute again.
         $context[self::ALREADY_CALLED] = true;
 
         return $this->denormalizer->denormalize($data, $type, $format, $context);

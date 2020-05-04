@@ -45,6 +45,14 @@ class SwaggerDecorator implements NormalizerInterface
                 ],
             ],
         ];
+        $docs['components']['schemas']['UserEmail'] = [
+            'type' => 'object',
+            'properties' => [
+                'email' => [
+                    'type' => 'string',
+                ],
+            ],
+        ];
 
         $tokenDocumentation = [
             'paths' => [
@@ -95,7 +103,43 @@ class SwaggerDecorator implements NormalizerInterface
                             ],
                         ],
                     ],
-                ]
+                ],
+                '/api/contacts/{id}/share-with-email' => [
+                    'post' => [
+                        'tags' => ['Contact'],
+                        'operationId' => 'share-with-email',
+                        'summary' => 'Share contact with another user (by providing email.)',
+                        'parameters' => [
+                            [
+                                'name' => 'id',
+                                'in' => 'path',
+                                'required' => true,
+                            ],
+                        ],
+                        'requestBody' => [
+                            'description' => 'User identification',
+                            'content' => [
+                                'application/json' => [
+                                    'schema' => [
+                                        '$ref' => '#/components/schemas/UserEmail',
+                                    ],
+                                ],
+                            ],
+                        ],
+                        'responses' => [
+                            Response::HTTP_OK => [
+                                'description' => 'Shared contact.',
+                                'content' => [
+                                    'application/json' => [
+                                        'schema' => [
+                                            '$ref' => '#/components/schemas/SharedContact-shared:output',
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ],
         ];
 

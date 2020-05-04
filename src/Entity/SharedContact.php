@@ -23,7 +23,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     )
  * @ORM\Entity(repositoryClass="App\Repository\SharedContactRepository")
  * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(columns={"contact_id", "shared_with_id"})})
- * @UniqueEntity({"contact", "sharedWith"})
+ * @UniqueEntity({"contact", "sharedWith"}, message="Already shared with this user.")
  */
 class SharedContact
 {

@@ -14,16 +14,17 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     attributes={"security"="is_granted('ROLE_USER')"},
  *     collectionOperations={
  *         "get",
- *         "post"={"security_post_denormalize"="is_granted('ROLE_ADMIN') or object.getOwner() == user"}
+ *         "post"={"security_post_denormalize"="is_granted('ROLE_ADMIN') or object.getOwner() == user"},
  *     },
  *     itemOperations={
  *         "get"={"security"="is_granted('ROLE_ADMIN') or object.getOwner() == user or object.isSharedWith(user)"},
- *         "delete"={"security"="is_granted('ROLE_ADMIN') or object.getOwner() == user"},
+ *         "delete"={"security"="is_granted('ROLE_ADMIN') or object.getOwner() == user or object.isSharedWith(user)"},
  *         "put"={"security_post_denormalize"="is_granted('ROLE_ADMIN') or (object.getOwner() == user and previous_object.getOwner() == user)"},
  *         "patch"={"security_post_denormalize"="is_granted('ROLE_ADMIN') or (object.getOwner() == user and previous_object.getOwner() == user)"},
  *     },
  *     normalizationContext={"groups"={"contact:output"}},
- *     denormalizationContext={"groups"={"contact:input"}})
+ *     denormalizationContext={"groups"={"contact:input"}}
+ *     )
  * @ORM\Entity(repositoryClass="App\Repository\ContactRepository")
  */
 class Contact
