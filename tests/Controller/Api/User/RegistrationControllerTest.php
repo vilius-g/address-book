@@ -23,11 +23,11 @@ class RegistrationControllerTest extends ApiTestCase
         // Test that the user has been authenticated.
         $client->request(
             'GET',
-            '/api/whoami'
+            '/api/users/me'
         );
 
         self::assertResponseIsSuccessful();
-        self::assertResponseHeaderSame('content-type', 'application/json');
+        self::assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
         self::assertJsonContains(['email' => 'test1@example.com']);
     }
