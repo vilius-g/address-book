@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Api\User;
 
 use ApiPlatform\Core\Bridge\Symfony\Validator\Exception\ValidationException;
 use App\Entity\Contact;

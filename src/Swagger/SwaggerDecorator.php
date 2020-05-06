@@ -61,7 +61,7 @@ class SwaggerDecorator implements NormalizerInterface
 
         $tokenDocumentation = [
             'paths' => [
-                '/api/login' => [
+                '/api/auth/login' => [
                     'post' => [
                         'tags' => ['Authentication'],
                         'operationId' => 'login',
@@ -90,7 +90,7 @@ class SwaggerDecorator implements NormalizerInterface
                         ],
                     ],
                 ],
-                '/api/logout' => [
+                '/api/auth/logout' => [
                     'post' => [
                         'tags' => ['Authentication'],
                         'operationId' => 'logout',

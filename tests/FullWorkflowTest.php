@@ -75,7 +75,7 @@ class FullWorkflowTest extends ApiTestCase
         // Login with another user.
         $client->request(
             'POST',
-            '/api/login',
+            '/api/auth/login',
             ['json' => ['email' => 'test4@example.com', 'password' => 'password1']]
         );
         self::assertResponseIsSuccessful();

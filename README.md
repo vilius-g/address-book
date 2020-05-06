@@ -63,10 +63,10 @@ curl -sb ${COOKIE_JAR} -c ${COOKIE_JAR} -X POST -H "Content-Type: application/js
 curl -sb ${COOKIE_JAR} -c ${COOKIE_JAR} -X GET ${API_ENDPOINT}/shared_contacts
 
 # Logout
-curl -sb ${COOKIE_JAR} -c ${COOKIE_JAR} -X POST ${API_ENDPOINT}/logout
+curl -sb ${COOKIE_JAR} -c ${COOKIE_JAR} -X POST ${API_ENDPOINT}/auth/logout
 
 # Login with another user
-curl -sb ${COOKIE_JAR} -c ${COOKIE_JAR} -X POST -H "Content-Type: application/json" --data '{"email":"user2@example.com","password":"password123"}' ${API_ENDPOINT}/login
+curl -sb ${COOKIE_JAR} -c ${COOKIE_JAR} -X POST -H "Content-Type: application/json" --data '{"email":"user2@example.com","password":"password123"}' ${API_ENDPOINT}/auth/login
 
 # Retrieve current user
 curl -sb ${COOKIE_JAR}  -X GET ${API_ENDPOINT}/shared_contacts
