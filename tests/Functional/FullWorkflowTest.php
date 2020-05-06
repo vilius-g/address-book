@@ -17,15 +17,10 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 class FullWorkflowTest extends ApiTestCase
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
-        DatabasePrimer::prime(self::bootKernel());
-    }
-
     public function testMultipleOperations(): void
     {
         $client = self::createClient();
+        DatabasePrimer::prime(self::$kernel);
 
         $user1 = ['email' => 'workflow-user-1@example.com', 'password' => 'password1'];
         $user2 = ['email' => 'workflow-user-2@example.com', 'password' => 'password2'];

@@ -14,12 +14,6 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 class RegistrationTest extends ApiTestCase
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
-        DatabasePrimer::prime(self::bootKernel());
-    }
-
     /**
      * Test user registration.
      *
@@ -32,6 +26,7 @@ class RegistrationTest extends ApiTestCase
     public function testRegistrationOk(): void
     {
         $client = self::createClient();
+        DatabasePrimer::prime(self::$kernel);
 
         $this->registerUser($client);
         $this->assertUserAuthenticated($client);
@@ -96,6 +91,7 @@ class RegistrationTest extends ApiTestCase
     public function testRegistrationError(array $input): void
     {
         $client = self::createClient();
+        DatabasePrimer::prime(self::$kernel);
 
         $client->request(
             'POST',
