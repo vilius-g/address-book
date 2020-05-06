@@ -19,7 +19,7 @@ services:
       - "3306:3306"
     command: --default-authentication-plugin=mysql_native_password
     env_file:
-      - .env.local
+      - .env
     volumes:
       - db-data:/var/lib/mysql
   php-test:
@@ -28,7 +28,6 @@ services:
     volumes:
       - .:/var/www/html:cached
     environment:
-      MYSQL_HOST: db-test
       MYSQL_VERSION: 8
       APP_ENV: test
     depends_on:
@@ -37,7 +36,7 @@ services:
   db-test:
     image: mysql:8
     env_file:
-      - .env.test.local
+      - .env.test
     volumes:
       - type: tmpfs
         target: /var/lib/mysql
