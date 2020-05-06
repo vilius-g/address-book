@@ -51,8 +51,7 @@ class ContactAttributeNormalizer implements ContextAwareNormalizerInterface, Nor
      */
     public function supportsNormalization($data, string $format = null, array $context = [])
     {
-        // Make sure we're not called twice
-        if (isset($context[self::ALREADY_CALLED])) {
+        if ($this->hasBeenCalledPreviously($context)) {
             return false;
         }
 
@@ -64,8 +63,7 @@ class ContactAttributeNormalizer implements ContextAwareNormalizerInterface, Nor
      */
     public function normalize($object, string $format = null, array $context = [])
     {
-        // Format phone number for display.
-        $object->setPhone($this->phoneDataTransformer->reverseTransform($object->getPhone()));
+        $this->normalizePhone($object);
         $context[self::ALREADY_CALLED] = true;
 
         return $this->normalizer->normalize($object, $format, $context);
@@ -76,8 +74,7 @@ class ContactAttributeNormalizer implements ContextAwareNormalizerInterface, Nor
      */
     public function supportsDenormalization($data, string $type, string $format = null, array $context = [])
     {
-        // Make sure we're not called twice
-        if (isset($context[self::ALREADY_CALLED])) {
+        if ($this->hasBeenCalledPreviously($context)) {
             return false;
         }
 
@@ -89,20 +86,64 @@ class ContactAttributeNormalizer implements ContextAwareNormalizerInterface, Nor
      */
     public function denormalize($data, string $type, string $format = null, array $context = [])
     {
-        if (array_key_exists('phone', $data)) {
-            // Normalize phone format for storage.
-            $data['phone'] = $this->phoneDataTransformer->transform($data['phone']);
-        }
+        $data = $this->formatPhone($data);
+        $data = $this->fillMissingOwner($data, $context);
 
-        if (!array_key_exists('owner', $data) && $this->isItemCreationOperation($context)) {
-            // Fill-in missing owner from session.
-            $data['owner'] = $this->iriConverter->getIriFromItem($this->security->getUser());
-        }
-
-        // Do not execute again.
         $context[self::ALREADY_CALLED] = true;
 
         return $this->denormalizer->denormalize($data, $type, $format, $context);
+    }
+
+    /**
+     * Format phone number for display.
+     *
+     * @param $object
+     */
+    private function normalizePhone(Contact $object): void
+    {
+        $object->setPhone($this->phoneDataTransformer->reverseTransform($object->getPhone()));
+    }
+
+    /**
+     * Format provided phone number for storage using consistent format.
+     *
+     * @param array $data
+     * @return array
+     */
+    private function formatPhone(array $data): array
+    {
+        if (array_key_exists('phone', $data)) {
+            $data['phone'] = $this->phoneDataTransformer->transform($data['phone']);
+        }
+
+        return $data;
+    }
+
+    /**
+     * Fill owner information from currently authenticated user when it is not provided.
+     *
+     * @param $data
+     * @param array $context
+     * @return array
+     */
+    private function fillMissingOwner(array $data, array $context): array
+    {
+        if (!array_key_exists('owner', $data) && $this->isItemCreationOperation($context)) {
+            $data['owner'] = $this->iriConverter->getIriFromItem($this->security->getUser());
+        }
+
+        return $data;
+    }
+
+    /**
+     * Return true if this normalizer has been already called in previous iteration.
+     *
+     * @param array $context
+     * @return bool
+     */
+    private function hasBeenCalledPreviously(array $context): bool
+    {
+        return isset($context[self::ALREADY_CALLED]);
     }
 
     /**

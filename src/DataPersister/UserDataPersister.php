@@ -32,13 +32,7 @@ class UserDataPersister implements ContextAwareDataPersisterInterface
 
     public function persist($data, array $context = [])
     {
-        // Encode password for storage.
-        if (($data instanceof User) && ($passwordPlain = $data->getPasswordPlain())) {
-            $data->setPassword(
-                $this->userPasswordEncoder->encodePassword($data, $passwordPlain)
-            );
-            $data->eraseCredentials();
-        }
+        $this->encodePassword($data);
 
         return $this->decorated->persist($data, $context);
     }
@@ -46,5 +40,22 @@ class UserDataPersister implements ContextAwareDataPersisterInterface
     public function remove($data, array $context = [])
     {
         return $this->decorated->remove($data, $context);
+    }
+
+    /**
+     * Encode user password for storage.
+     *
+     * Does nothing if $data is not an User instance.
+     *
+     * @param $data
+     */
+    private function encodePassword($data): void
+    {
+        if (($data instanceof User) && ($passwordPlain = $data->getPasswordPlain())) {
+            $data->setPassword(
+                $this->userPasswordEncoder->encodePassword($data, $passwordPlain)
+            );
+            $data->eraseCredentials();
+        }
     }
 }
