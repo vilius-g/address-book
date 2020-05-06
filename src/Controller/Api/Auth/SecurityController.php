@@ -2,11 +2,10 @@
 
 namespace App\Controller\Api\Auth;
 
-use LogicException;
+use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 /**
  * Implements user authentication.
@@ -14,18 +13,23 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class SecurityController extends AbstractController
 {
     /**
-     * Provides login function.
+     * Provides successful login response.
      *
      * @Route("/api/auth/login", name="app_login")
+     * @return JsonResponse
      */
-    public function login(AuthenticationUtils $authenticationUtils): Response
+    public function login(): JsonResponse
     {
-        // get the login error if there is one
-        $error = $authenticationUtils->getLastAuthenticationError();
-        // last username entered by the user
-        $lastUsername = $authenticationUtils->getLastUsername();
+        $user = $this->getUser();
+        assert($user instanceof User);
 
-        return $this->json(['last_username' => $lastUsername, 'error' => $error]);
+        return $this->json(
+            [
+                'id' => $user->getId(),
+                'email' => $user->getUsername(),
+                'roles' => $user->getRoles(),
+            ]
+        );
     }
 
     /**
@@ -33,10 +37,8 @@ class SecurityController extends AbstractController
      *
      * @Route("/api/auth/logout", name="app_logout")
      */
-    public function logout()
+    public function logout(): JsonResponse
     {
-        throw new LogicException(
-            'This method can be blank - it will be intercepted by the logout key on your firewall.'
-        );
+        return $this->json([]);
     }
 }

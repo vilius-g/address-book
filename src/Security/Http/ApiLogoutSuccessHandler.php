@@ -16,6 +16,6 @@ class ApiLogoutSuccessHandler implements LogoutSuccessHandlerInterface
      */
     public function onLogoutSuccess(Request $request)
     {
-        return new JsonResponse(['logout' => true]);
+        return new JsonResponse([]);
     }
 }

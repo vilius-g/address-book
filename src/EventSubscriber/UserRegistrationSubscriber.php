@@ -6,12 +6,12 @@ namespace App\EventSubscriber;
 
 use ApiPlatform\Core\EventListener\EventPriorities;
 use App\Entity\User;
-use App\Security\LoginApiAuthenticator;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Guard\AuthenticatorInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use Symfony\Contracts\Service\ServiceSubscriberInterface;
 use Symfony\Contracts\Service\ServiceSubscriberTrait;
@@ -66,7 +66,7 @@ class UserRegistrationSubscriber implements EventSubscriberInterface, ServiceSub
         return $this->container->get(__METHOD__);
     }
 
-    public function authenticator(): LoginApiAuthenticator
+    public function authenticator(): AuthenticatorInterface
     {
         return $this->container->get(__METHOD__);
     }

@@ -39,11 +39,6 @@ class SwaggerDecorator implements NormalizerInterface
         ];
         $docs['components']['schemas']['Logout'] = [
             'type' => 'object',
-            'properties' => [
-                'logout' => [
-                    'type' => 'boolean',
-                ],
-            ],
         ];
         $docs['components']['schemas']['ShareWithEmail'] = [
             'type' => 'object',
