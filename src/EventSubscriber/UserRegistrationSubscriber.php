@@ -1,18 +1,15 @@
 <?php
 
-
 namespace App\EventSubscriber;
-
 
 use ApiPlatform\Core\EventListener\EventPriorities;
 use App\Entity\User;
+use App\Security\Guard\ManualUserAuthenticator;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Security\Core\Security;
-use Symfony\Component\Security\Guard\AuthenticatorInterface;
-use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use Symfony\Contracts\Service\ServiceSubscriberInterface;
 use Symfony\Contracts\Service\ServiceSubscriberTrait;
 
@@ -42,31 +39,37 @@ class UserRegistrationSubscriber implements EventSubscriberInterface, ServiceSub
      */
     public function loginUser(ViewEvent $event): void
     {
-        if ($this->security()->isGranted('ROLE_USER')) {
-            // Skip this altogether for authenticated users.
+        if ($this->shouldSkip($event)) {
             return;
         }
 
-        $user = $event->getControllerResult();
-        if (!$user instanceof User || Request::METHOD_POST !== $event->getRequest()->getMethod()) {
-            return;
-        }
-
-        // Log-in user.
-        $this->guardHandler()->authenticateUserAndHandleSuccess(
-            $user,
-            $event->getRequest(),
-            $this->authenticator(),
-            'main' // firewall name in security.yaml
-        );
+        $this->authenticator()->authenticateWithUser($event->getControllerResult(), $event->getRequest(), 'main');
     }
 
-    public function guardHandler(): GuardAuthenticatorHandler
+    /**
+     * Check if this handler should not be executed for this event.
+     *
+     * @param ViewEvent $event
+     * @return bool
+     */
+    private function shouldSkip(ViewEvent $event): bool
     {
-        return $this->container->get(__METHOD__);
+        return !($event->getControllerResult() instanceof User) ||
+            !$event->getRequest()->isMethod(Request::METHOD_POST) ||
+            $this->isAuthenticatedPreviously();
     }
 
-    public function authenticator(): AuthenticatorInterface
+    /**
+     * Check if user is already authenticated.
+     *
+     * @return bool TRUE for authenticated user, FALSE for anonymous user
+     */
+    private function isAuthenticatedPreviously(): bool
+    {
+        return $this->security()->isGranted('ROLE_USER');
+    }
+
+    public function authenticator(): ManualUserAuthenticator
     {
         return $this->container->get(__METHOD__);
     }
