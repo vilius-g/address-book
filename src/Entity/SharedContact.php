@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Controller\Api\SharedContact\ShareController;
 use App\Dto\ShareWithEmailInput;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -73,7 +72,7 @@ class SharedContact
 
     public function getOwner(): ?User
     {
-        return $this->getContact()->getOwner();
+        return $this->getContact() ? $this->getContact()->getOwner() : null;
     }
 
     public function setContact(?Contact $contact): self
