@@ -57,7 +57,7 @@ class LoginApiAuthenticator extends AbstractGuardAuthenticator implements Passwo
 
     public function supportsRememberMe()
     {
-        return true;
+        return false;
     }
 
     /**
