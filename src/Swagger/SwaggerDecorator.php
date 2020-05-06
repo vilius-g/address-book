@@ -75,6 +75,11 @@ class SwaggerDecorator implements NormalizerInterface
                             Response::HTTP_OK => [
                                 'description' => 'Get user details',
                                 'content' => [
+                                    'application/ld+json' => [
+                                        'schema' => [
+                                            '$ref' => '#/components/schemas/User:jsonld-user:output',
+                                        ],
+                                    ],
                                     'application/json' => [
                                         'schema' => [
                                             '$ref' => '#/components/schemas/User-user:output',
