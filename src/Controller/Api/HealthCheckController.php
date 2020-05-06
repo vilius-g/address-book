@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller\Api;
@@ -12,6 +13,7 @@ class HealthCheckController
      * Provides a health check endpoint.
      *
      * @Route("/api/healthcheck")
+     *
      * @return Response Response is plain text with value "OK"
      */
     public function __invoke(): Response

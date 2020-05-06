@@ -42,7 +42,6 @@ class AuthenticationTest extends ApiTestCase
     /**
      * Login user in the system.
      *
-     * @param Client $client
      * @throws ClientExceptionInterface
      * @throws DecodingExceptionInterface
      * @throws RedirectionExceptionInterface
@@ -64,7 +63,6 @@ class AuthenticationTest extends ApiTestCase
     /**
      * Logout user from the system.
      *
-     * @param Client $client
      * @throws TransportExceptionInterface
      */
     private function unauthenticateUser(Client $client): void
@@ -81,7 +79,6 @@ class AuthenticationTest extends ApiTestCase
     /**
      * Check that user is currently authenticated.
      *
-     * @param Client $client
      * @throws TransportExceptionInterface
      * @throws ClientExceptionInterface
      * @throws DecodingExceptionInterface
@@ -102,7 +99,6 @@ class AuthenticationTest extends ApiTestCase
     /**
      * Check that user is not currently authenticated.
      *
-     * @param Client $client
      * @throws TransportExceptionInterface
      */
     private function assertUserNotAuthenticated(Client $client): void
@@ -128,8 +124,10 @@ class AuthenticationTest extends ApiTestCase
      * Check that invalid responses result in errors.
      *
      * @dataProvider getLoginErrorData
-     * @param array $input Request content
-     * @param int $statusCode Expected status code
+     *
+     * @param array $input      Request content
+     * @param int   $statusCode Expected status code
+     *
      * @throws TransportExceptionInterface
      */
     public function testInvalidAuthentication(array $input, int $statusCode = 401): void

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller\Api\Auth;
@@ -17,7 +18,6 @@ class SecurityController extends AbstractController
      * Provides successful login response.
      *
      * @Route("/api/auth/login", name="app_login")
-     * @return JsonResponse
      */
     public function login(): JsonResponse
     {

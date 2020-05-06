@@ -10,5 +10,5 @@ trim_trailing_whitespace = true
 insert_final_newline = true
 ij_php_line_comment_at_first_column = false
 
-[docker-compose.yaml]
+[{docker-compose.yaml, .pre-commit-config.yaml}]
 indent_size = 2

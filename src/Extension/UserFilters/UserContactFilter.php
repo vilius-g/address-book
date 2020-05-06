@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Extension\UserFilters;
@@ -11,7 +12,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class UserContactFilter implements UserFilterInterface
 {
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function applyToCollection(
         UserInterface $user,
@@ -25,7 +26,7 @@ class UserContactFilter implements UserFilterInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function supports(string $resourceClass, string $operationName = null): bool
     {

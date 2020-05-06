@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Repository;
@@ -68,9 +69,6 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
     /**
      * Find user given its email.
-     *
-     * @param string $email
-     * @return User|null
      */
     public function findOneByEmail(string $email): ?User
     {

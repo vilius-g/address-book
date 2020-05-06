@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\DataTransformer;
@@ -25,7 +26,7 @@ class PhoneDataTransformer implements DataTransformerInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function transform($value)
     {
@@ -37,7 +38,7 @@ class PhoneDataTransformer implements DataTransformerInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function reverseTransform($value)
     {
@@ -52,7 +53,7 @@ class PhoneDataTransformer implements DataTransformerInterface
      * Parse phone number string to PhoneNumber instance.
      *
      * @param mixed $value Raw phone string
-     * @return PhoneNumber
+     *
      * @throws NumberParseException
      */
     private function parse($value): PhoneNumber

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Security\Guard;
@@ -21,7 +22,6 @@ class ManualUserAuthenticator
 
     /**
      * ManualUserAuthenticator constructor.
-     * @param GuardAuthenticatorHandler $guardAuthenticatorHandler
      */
     public function __construct(GuardAuthenticatorHandler $guardAuthenticatorHandler)
     {
@@ -31,9 +31,9 @@ class ManualUserAuthenticator
     /**
      * Manually authenticate the provided user.
      *
-     * @param User $user user instance to authenticate
-     * @param Request $request incoming request instance
-     * @param string $providerKey firewall name in security.yaml
+     * @param User    $user        user instance to authenticate
+     * @param Request $request     incoming request instance
+     * @param string  $providerKey firewall name in security.yaml
      */
     public function authenticateWithUser(User $user, Request $request, string $providerKey): void
     {
@@ -43,10 +43,6 @@ class ManualUserAuthenticator
 
     /**
      * Create authentication token from provided user.
-     *
-     * @param User $user
-     * @param string $providerKey
-     * @return TokenInterface
      */
     private function createToken(User $user, string $providerKey): TokenInterface
     {

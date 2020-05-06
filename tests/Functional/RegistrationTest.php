@@ -40,7 +40,6 @@ class RegistrationTest extends ApiTestCase
     /**
      * Register user in the system.
      *
-     * @param Client $client
      * @throws TransportExceptionInterface
      */
     private function registerUser(Client $client): void
@@ -58,7 +57,6 @@ class RegistrationTest extends ApiTestCase
     /**
      * Check that user is currently authenticated.
      *
-     * @param Client $client
      * @throws TransportExceptionInterface
      * @throws ClientExceptionInterface
      * @throws DecodingExceptionInterface
@@ -90,7 +88,9 @@ class RegistrationTest extends ApiTestCase
      * Check that invalid responses result in errors.
      *
      * @dataProvider getRegistrationErrorData
+     *
      * @param array $input Request content
+     *
      * @throws TransportExceptionInterface
      */
     public function testRegistrationError(array $input): void

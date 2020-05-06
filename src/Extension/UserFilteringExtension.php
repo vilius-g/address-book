@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Extension;
@@ -28,7 +29,6 @@ class UserFilteringExtension implements QueryCollectionExtensionInterface
     {
         $this->filters = $filters;
         $this->security = $security;
-
     }
 
     public function applyToCollection(
@@ -52,8 +52,6 @@ class UserFilteringExtension implements QueryCollectionExtensionInterface
 
     /**
      * Returns if the current user is admin and the filters do not apply.
-     *
-     * @return bool
      */
     private function isUnfiltered(): bool
     {
@@ -62,8 +60,6 @@ class UserFilteringExtension implements QueryCollectionExtensionInterface
 
     /**
      * Retrieve current user instance.
-     *
-     * @return UserInterface
      */
     private function getUser(): UserInterface
     {

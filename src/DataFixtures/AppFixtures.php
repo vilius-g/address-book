@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\DataFixtures;
@@ -10,7 +11,7 @@ use Doctrine\Persistence\ObjectManager;
 class AppFixtures extends Fixture
 {
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function load(ObjectManager $manager)
     {
@@ -21,8 +22,6 @@ class AppFixtures extends Fixture
 
     /**
      * Create sample users.
-     *
-     * @param ObjectManager $manager
      */
     private function loadUsers(ObjectManager $manager): void
     {

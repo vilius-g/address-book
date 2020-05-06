@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Validator\Constraints;
@@ -17,7 +18,6 @@ class ExistingUserEmailValidator extends ConstraintValidator
 
     /**
      * ExistingUserEmailValidator constructor.
-     * @param UserRepository $userRepository
      */
     public function __construct(UserRepository $userRepository)
     {
@@ -25,7 +25,7 @@ class ExistingUserEmailValidator extends ConstraintValidator
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function validate($value, Constraint $constraint)
     {
@@ -51,7 +51,6 @@ class ExistingUserEmailValidator extends ConstraintValidator
      * Check for user existence in the database.
      *
      * @param $value
-     * @return bool
      */
     private function userWithEmailExists($value): bool
     {

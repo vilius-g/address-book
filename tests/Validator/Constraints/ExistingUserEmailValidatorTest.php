@@ -58,9 +58,6 @@ class ExistingUserEmailValidatorTest extends ConstraintValidatorTestCase
 
     /**
      * Create user instance with provided email.
-     *
-     * @param string $email
-     * @return User
      */
     protected function createUserWithEmail(string $email): User
     {

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\DataTransformer;
@@ -22,8 +23,6 @@ class ShareWithEmailInputDataTransformer implements DataTransformerInterface
 
     /**
      * ShareWithEmailInputDataTransformer constructor.
-     * @param ValidatorInterface $validator
-     * @param UserEmailInputDataTransformer $userEmailInputDataTransformer
      */
     public function __construct(
         ValidatorInterface $validator,
@@ -34,7 +33,7 @@ class ShareWithEmailInputDataTransformer implements DataTransformerInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function transform($object, string $to, array $context = [])
     {
@@ -48,7 +47,7 @@ class ShareWithEmailInputDataTransformer implements DataTransformerInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function supportsTransformation($data, string $to, array $context = []): bool
     {
@@ -63,8 +62,6 @@ class ShareWithEmailInputDataTransformer implements DataTransformerInterface
      * Return user instance from its email address.
      *
      * @param UserEmailInput $object
-     * @param array $context
-     * @return User
      */
     private function convertEmailToUser($object, array $context = []): User
     {

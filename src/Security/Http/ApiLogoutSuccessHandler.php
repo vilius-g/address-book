@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Security\Http;
@@ -13,7 +14,7 @@ use Symfony\Component\Security\Http\Logout\LogoutSuccessHandlerInterface;
 class ApiLogoutSuccessHandler implements LogoutSuccessHandlerInterface
 {
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function onLogoutSuccess(Request $request)
     {

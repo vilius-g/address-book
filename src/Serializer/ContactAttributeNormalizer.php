@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Serializer;
@@ -6,6 +7,8 @@ namespace App\Serializer;
 use ApiPlatform\Core\Api\IriConverterInterface;
 use App\DataTransformer\PhoneDataTransformer;
 use App\Entity\Contact;
+use function array_key_exists;
+use function is_array;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Serializer\Normalizer\ContextAwareDenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\ContextAwareNormalizerInterface;
@@ -13,8 +16,6 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
-use function array_key_exists;
-use function is_array;
 
 /**
  * Implements field normalization for Contact entities.
@@ -49,7 +50,7 @@ class ContactAttributeNormalizer implements ContextAwareNormalizerInterface, Nor
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function supportsNormalization($data, string $format = null, array $context = [])
     {
@@ -61,7 +62,7 @@ class ContactAttributeNormalizer implements ContextAwareNormalizerInterface, Nor
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function normalize($object, string $format = null, array $context = [])
     {
@@ -72,7 +73,7 @@ class ContactAttributeNormalizer implements ContextAwareNormalizerInterface, Nor
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function supportsDenormalization($data, string $type, string $format = null, array $context = [])
     {
@@ -84,7 +85,7 @@ class ContactAttributeNormalizer implements ContextAwareNormalizerInterface, Nor
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function denormalize($data, string $type, string $format = null, array $context = [])
     {
@@ -108,9 +109,6 @@ class ContactAttributeNormalizer implements ContextAwareNormalizerInterface, Nor
 
     /**
      * Format provided phone number for storage using consistent format.
-     *
-     * @param array $data
-     * @return array
      */
     private function formatPhone(array $data): array
     {
@@ -125,8 +123,6 @@ class ContactAttributeNormalizer implements ContextAwareNormalizerInterface, Nor
      * Fill owner information from currently authenticated user when it is not provided.
      *
      * @param $data
-     * @param array $context
-     * @return array
      */
     private function fillMissingOwner(array $data, array $context): array
     {
@@ -139,9 +135,6 @@ class ContactAttributeNormalizer implements ContextAwareNormalizerInterface, Nor
 
     /**
      * Return true if this normalizer has been already called in previous iteration.
-     *
-     * @param array $context
-     * @return bool
      */
     private function hasBeenCalledPreviously(array $context): bool
     {
@@ -150,9 +143,6 @@ class ContactAttributeNormalizer implements ContextAwareNormalizerInterface, Nor
 
     /**
      * Is current API operation creating a new item.
-     *
-     * @param array $context
-     * @return bool
      */
     private function isItemCreationOperation(array $context): bool
     {

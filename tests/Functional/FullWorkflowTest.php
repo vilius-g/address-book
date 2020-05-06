@@ -5,15 +5,15 @@ namespace App\Tests\Functional;
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase;
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\Client;
 use App\Tests\DB\DatabasePrimer;
-use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use function array_map;
 use function array_map as array_map1;
 use function array_merge;
 use function json_decode;
 use const JSON_THROW_ON_ERROR;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 class FullWorkflowTest extends ApiTestCase
 {
@@ -60,10 +60,8 @@ class FullWorkflowTest extends ApiTestCase
     }
 
     /**
-     * @param Client $client
      * @param $userId
-     * @param array $contact
-     * @return string
+     *
      * @throws ClientExceptionInterface
      * @throws RedirectionExceptionInterface
      * @throws ServerExceptionInterface
@@ -82,9 +80,8 @@ class FullWorkflowTest extends ApiTestCase
     }
 
     /**
-     * @param Client $client
      * @param string[] $contactIdListExpected
-     * @return void
+     *
      * @throws ClientExceptionInterface
      * @throws RedirectionExceptionInterface
      * @throws ServerExceptionInterface
@@ -105,8 +102,8 @@ class FullWorkflowTest extends ApiTestCase
     }
 
     /**
-     * @param Client $client
      * @return mixed
+     *
      * @throws ClientExceptionInterface
      * @throws RedirectionExceptionInterface
      * @throws ServerExceptionInterface
@@ -118,8 +115,8 @@ class FullWorkflowTest extends ApiTestCase
     }
 
     /**
-     * @param Client $client
      * @return mixed
+     *
      * @throws ClientExceptionInterface
      * @throws RedirectionExceptionInterface
      * @throws ServerExceptionInterface
@@ -131,10 +128,9 @@ class FullWorkflowTest extends ApiTestCase
     }
 
     /**
-     * @param Client $client
      * @param $contactId
      * @param $userId2
-     * @return string
+     *
      * @throws ClientExceptionInterface
      * @throws RedirectionExceptionInterface
      * @throws ServerExceptionInterface
@@ -153,8 +149,6 @@ class FullWorkflowTest extends ApiTestCase
     }
 
     /**
-     * @param Client $client
-     * @param array $credentials
      * @throws TransportExceptionInterface
      */
     private function loginUser(Client $client, array $credentials): void
@@ -168,9 +162,8 @@ class FullWorkflowTest extends ApiTestCase
     }
 
     /**
-     * @param Client $client
      * @param string[] $contactIdListExpected
-     * @return void
+     *
      * @throws ClientExceptionInterface
      * @throws RedirectionExceptionInterface
      * @throws ServerExceptionInterface
@@ -191,8 +184,6 @@ class FullWorkflowTest extends ApiTestCase
     }
 
     /**
-     * @param Client $client
-     * @param string $contactId
      * @throws TransportExceptionInterface
      */
     private function assertContactAccessible(Client $client, string $contactId): void
@@ -202,8 +193,6 @@ class FullWorkflowTest extends ApiTestCase
     }
 
     /**
-     * @param Client $client
-     * @param string $sharedContactId
      * @throws TransportExceptionInterface
      */
     private function deleteSharedContact(Client $client, string $sharedContactId): void
@@ -213,8 +202,6 @@ class FullWorkflowTest extends ApiTestCase
     }
 
     /**
-     * @param Client $client
-     * @param string $contactId
      * @throws TransportExceptionInterface
      */
     private function assertContactNotAccessible(Client $client, string $contactId): void
@@ -224,9 +211,8 @@ class FullWorkflowTest extends ApiTestCase
     }
 
     /**
-     * @param Client $client
-     * @param array $arr
      * @return mixed
+     *
      * @throws ClientExceptionInterface
      * @throws RedirectionExceptionInterface
      * @throws ServerExceptionInterface

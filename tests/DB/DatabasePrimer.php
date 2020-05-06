@@ -26,9 +26,6 @@ class DatabasePrimer
 
     /**
      * Create console application instance for running command silently.
-     *
-     * @param KernelInterface $kernel
-     * @return Application
      */
     private static function createConsoleApplication(KernelInterface $kernel): Application
     {
@@ -42,8 +39,6 @@ class DatabasePrimer
     /**
      * Run console command as you would from command line.
      *
-     * @param string $command
-     * @param Application $application
      * @throws \Exception
      */
     private static function runConsoleCommand(string $command, Application $application): void
@@ -62,7 +57,6 @@ class DatabasePrimer
      *
      * This executes console commands internally to best match the behaviour in development/production.
      *
-     * @param KernelInterface $kernel
      * @throws \Exception
      */
     private static function initializeDatabase(KernelInterface $kernel): void

@@ -2,9 +2,9 @@
 
 namespace App\Validator\Constraints;
 
+use function array_merge;
 use libphonenumber\PhoneNumberUtil;
 use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
-use function array_merge;
 
 /**
  * @internal

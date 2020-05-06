@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\EventSubscriber;
@@ -22,7 +23,7 @@ class UserRegistrationSubscriber implements EventSubscriberInterface, ServiceSub
     use ServiceSubscriberTrait;
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public static function getSubscribedEvents()
     {
@@ -35,8 +36,6 @@ class UserRegistrationSubscriber implements EventSubscriberInterface, ServiceSub
      * Automatically authenticate user after creating one.
      *
      * Only works the first time, repeated calls will create new users but will not change authenticated one.
-     *
-     * @param ViewEvent $event
      */
     public function loginUser(ViewEvent $event): void
     {
@@ -49,9 +48,6 @@ class UserRegistrationSubscriber implements EventSubscriberInterface, ServiceSub
 
     /**
      * Check if this handler should not be executed for this event.
-     *
-     * @param ViewEvent $event
-     * @return bool
      */
     private function shouldSkip(ViewEvent $event): bool
     {
