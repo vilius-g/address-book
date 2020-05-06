@@ -9,6 +9,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class IndexController extends AbstractController
 {
     /**
+     * Redirects from / to API documentation.
+     *
      * @Route("/", name="index")
      */
     public function __invoke(): Response

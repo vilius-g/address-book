@@ -19,6 +19,9 @@ use Symfony\Component\Security\Http\Util\TargetPathTrait;
 use function json_decode;
 use const JSON_THROW_ON_ERROR;
 
+/**
+ * Guard authenticator that implements JSON-based authentication.
+ */
 class LoginApiAuthenticator extends AbstractGuardAuthenticator implements PasswordAuthenticatedInterface
 {
     use TargetPathTrait;

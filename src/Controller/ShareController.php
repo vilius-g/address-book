@@ -20,6 +20,8 @@ use const JSON_THROW_ON_ERROR;
 class ShareController extends AbstractController
 {
     /**
+     * Implements contact sharing with other user email.
+     *
      * @Route(
      *     path="/api/contacts/{id}/share-with-email",
      *     methods={"POST"}

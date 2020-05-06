@@ -36,7 +36,7 @@ class PhoneNumberValidator extends ConstraintValidator
 
         try {
             $phone = $this->phoneNumberUtil->parse($value);
-        } /** @noinspection BadExceptionsProcessingInspection */ catch (NumberParseException $e) {
+        } catch (NumberParseException $e) {
             $this->context->buildViolation($constraint->invalidNumberMessage)
                 ->setParameter('{{ value }}', $value)
                 ->setCode($constraint::NOT_PHONE_NUMBER_ERROR)

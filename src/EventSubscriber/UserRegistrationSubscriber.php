@@ -16,6 +16,9 @@ use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use Symfony\Contracts\Service\ServiceSubscriberInterface;
 use Symfony\Contracts\Service\ServiceSubscriberTrait;
 
+/**
+ * Intercepts when new user is created and logs him in.
+ */
 class UserRegistrationSubscriber implements EventSubscriberInterface, ServiceSubscriberInterface
 {
     use ServiceSubscriberTrait;

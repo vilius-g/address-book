@@ -9,6 +9,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * Represents contact sharing relation.
+ *
  * @ApiResource(
  *     attributes={"security"="is_granted('ROLE_USER')"},
  *     collectionOperations={

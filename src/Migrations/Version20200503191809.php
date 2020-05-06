@@ -14,7 +14,7 @@ final class Version20200503191809 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'Create contacts and shared contacts';
     }
 
     public function up(Schema $schema): void

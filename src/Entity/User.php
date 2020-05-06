@@ -11,6 +11,8 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * Represents system user.
+ *
  * @ApiResource(
  *     attributes={"security"="is_granted('ROLE_ADMIN')"},
  *     collectionOperations={

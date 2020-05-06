@@ -10,6 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
+ * Represents stored contact information.
+ *
  * @ApiResource(
  *     attributes={"security"="is_granted('ROLE_USER')"},
  *     collectionOperations={

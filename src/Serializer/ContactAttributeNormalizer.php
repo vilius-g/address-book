@@ -14,6 +14,9 @@ use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use function array_key_exists;
 
+/**
+ * Implements field normalization for Contact entities.
+ */
 class ContactAttributeNormalizer implements ContextAwareNormalizerInterface, NormalizerAwareInterface, ContextAwareDenormalizerInterface, DenormalizerAwareInterface
 {
     use NormalizerAwareTrait;

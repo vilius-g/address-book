@@ -6,6 +6,9 @@ use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
 use App\Entity\User;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
+/**
+ * Decorates DataPersister to encode user passwords.
+ */
 class UserDataPersister implements ContextAwareDataPersisterInterface
 {
     private $decorated;
@@ -27,9 +30,6 @@ class UserDataPersister implements ContextAwareDataPersisterInterface
         return $this->decorated->supports($data, $context);
     }
 
-    /**
-     * @param User $data
-     */
     public function persist($data, array $context = [])
     {
         // Encode password for storage.

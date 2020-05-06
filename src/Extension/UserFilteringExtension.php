@@ -9,6 +9,13 @@ use App\Entity\SharedContact;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Security\Core\Security;
 
+/**
+ * Provides result filtering for API listings.
+ *
+ * Currently the following filters are implemented:
+ *  - Only users own contacts are listed. For admin all contacts are listed.
+ *  - For shared contacts, only contacts shared by or with the user are listed. For admin all contacts are listed.
+ */
 class UserFilteringExtension implements QueryCollectionExtensionInterface
 {
     /**
