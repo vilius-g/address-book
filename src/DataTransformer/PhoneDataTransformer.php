@@ -3,6 +3,7 @@
 namespace App\DataTransformer;
 
 use libphonenumber\NumberParseException;
+use libphonenumber\PhoneNumber;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
 use Symfony\Component\Form\DataTransformerInterface;
@@ -28,9 +29,7 @@ class PhoneDataTransformer implements DataTransformerInterface
     public function transform($value)
     {
         try {
-            $phone = $this->phoneNumberUtil->parse($value);
-
-            return $this->phoneNumberUtil->format($phone, PhoneNumberFormat::E164);
+            return $this->phoneNumberUtil->format($this->parse($value), PhoneNumberFormat::E164);
         } catch (NumberParseException $e) {
             return $value;
         }
@@ -42,11 +41,21 @@ class PhoneDataTransformer implements DataTransformerInterface
     public function reverseTransform($value)
     {
         try {
-            $phone = $this->phoneNumberUtil->parse($value);
-
-            return $this->phoneNumberUtil->format($phone, PhoneNumberFormat::INTERNATIONAL);
+            return $this->phoneNumberUtil->format($this->parse($value), PhoneNumberFormat::INTERNATIONAL);
         } catch (NumberParseException $e) {
             return $value;
         }
+    }
+
+    /**
+     * Parse phone number string to PhoneNumber instance.
+     *
+     * @param mixed $value Raw phone string
+     * @return PhoneNumber
+     * @throws NumberParseException
+     */
+    private function parse($value): PhoneNumber
+    {
+        return $this->phoneNumberUtil->parse($value);
     }
 }
