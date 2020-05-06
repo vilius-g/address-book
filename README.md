@@ -80,10 +80,6 @@ docker-compose up -d db-test
 # Wait for database to initialize
 sleep 5
 
-# Run migrations and fixures
-docker-compose run php-test bin/console -e test doctrine:migrations:migrate -n
-docker-compose run php-test bin/console -e test doctrine:fixtures:load -n
-
 # Run phpunit
 docker-compose run php-test bin/phpunit
 ```

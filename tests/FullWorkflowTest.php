@@ -3,11 +3,18 @@
 namespace App\Tests;
 
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase;
+use App\Tests\DB\DatabasePrimer;
 use function json_decode;
 use const JSON_THROW_ON_ERROR;
 
 class FullWorkflowTest extends ApiTestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+        DatabasePrimer::prime(self::bootKernel());
+    }
+
     public function testMultipleOperations(): void
     {
         $client = self::createClient();

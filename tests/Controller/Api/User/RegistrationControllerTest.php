@@ -3,10 +3,17 @@
 namespace App\Tests\Controller\Api\User;
 
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase;
+use App\Tests\DB\DatabasePrimer;
 use Symfony\Component\HttpFoundation\Response;
 
 class RegistrationControllerTest extends ApiTestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+        DatabasePrimer::prime(self::bootKernel());
+    }
+
     public function testRegistrationOk(): void
     {
         $client = self::createClient();

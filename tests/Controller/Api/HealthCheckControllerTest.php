@@ -6,6 +6,12 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class HealthCheckControllerTest extends WebTestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+        // TODO: prime database
+    }
+
     public function test(): void
     {
         $client = static::createClient();
