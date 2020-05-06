@@ -1,17 +1,11 @@
 <?php
 
-namespace App\Tests\Controller\Api;
+namespace App\Tests\Functional;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class HealthCheckControllerTest extends WebTestCase
+class HealthCheckTest extends WebTestCase
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
-        // TODO: prime database
-    }
-
     public function test(): void
     {
         $client = static::createClient();
