@@ -38,6 +38,9 @@ services:
     image: mysql:8
     env_file:
       - .env.test.local
+    volumes:
+      - type: tmpfs
+        target: /var/lib/mysql
 
 volumes:
   db-data:
