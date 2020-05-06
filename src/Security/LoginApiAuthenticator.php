@@ -52,7 +52,7 @@ class LoginApiAuthenticator extends AbstractGuardAuthenticator implements Passwo
      */
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
-        return new JsonResponse(['error' => 'Login failed.']);
+        return new JsonResponse(['error' => 'Login failed.'], 400);
     }
 
     public function supportsRememberMe()

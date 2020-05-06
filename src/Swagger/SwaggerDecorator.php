@@ -87,6 +87,9 @@ class SwaggerDecorator implements NormalizerInterface
                                     ],
                                 ],
                             ],
+                            Response::HTTP_BAD_REQUEST => [
+                                'description' => 'Invalid user credentials',
+                            ],
                         ],
                     ],
                 ],
@@ -105,7 +108,7 @@ class SwaggerDecorator implements NormalizerInterface
                                         ],
                                     ],
                                 ],
-                            ],
+                            ]
                         ],
                     ],
                 ],
