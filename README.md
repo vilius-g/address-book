@@ -90,5 +90,4 @@ docker-compose run php-test bin/phpunit
  * Email confirmation after registration.
  * Notifications after contact is shared/unshared (need email sending configured.)
  * More strict uniqueness requirements for contacts (currently allows duplicate records.)
- * Contact search functionality.
  * More comprehensive contact fields (email, address, etc.)
