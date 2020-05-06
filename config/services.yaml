@@ -39,3 +39,5 @@ services:
 
     libphonenumber\PhoneNumberUtil:
         factory: '\libphonenumber\PhoneNumberUtil::getInstance'
+
+    App\DataTransformer\ShareWithEmailInputDataTransformer: ~

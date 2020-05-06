@@ -57,7 +57,7 @@ curl -sb ${COOKIE_JAR} -c ${COOKIE_JAR} -X PATCH -H "Content-Type: application/m
 curl -sb ${COOKIE_JAR} -c ${COOKIE_JAR} -X POST -H "Content-Type: application/json" --data '{"email":"user2@example.com","password":"password123"}' ${API_ENDPOINT}/users
 
 # Share some contacts
-curl -sb ${COOKIE_JAR} -c ${COOKIE_JAR} -X POST -H "Content-Type: application/json" --data '{"sharedWith":{"email":"user2@example.com"}}' ${API_ENDPOINT}/contacts/2/share-with-email
+curl -sb ${COOKIE_JAR} -c ${COOKIE_JAR} -X POST -H "Content-Type: application/json" --data '{"contact":"/api/contacts/2","sharedWith":{"email":"user2@example.com"}}' ${API_ENDPOINT}/shared_contacts/share_with_email
 
 # Retrieve contacts shared by user
 curl -sb ${COOKIE_JAR} -c ${COOKIE_JAR} -X GET ${API_ENDPOINT}/shared_contacts

@@ -13,6 +13,7 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use function array_key_exists;
+use function is_array;
 
 /**
  * Implements field normalization for Contact entities.
@@ -78,7 +79,7 @@ class ContactAttributeNormalizer implements ContextAwareNormalizerInterface, Nor
             return false;
         }
 
-        return Contact::class === $type;
+        return Contact::class === $type && is_array($data);
     }
 
     /**

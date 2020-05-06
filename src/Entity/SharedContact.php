@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Controller\Api\SharedContact\ShareController;
+use App\Dto\ShareWithEmailInput;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -15,7 +17,13 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     attributes={"security"="is_granted('ROLE_USER')"},
  *     collectionOperations={
  *         "get",
- *         "post"={"security_post_denormalize"="is_granted('ROLE_ADMIN') or object.getOwner() == user"}
+ *         "post"={"security_post_denormalize"="is_granted('ROLE_ADMIN') or object.getOwner() == user"},
+ *         "share_with_email"={
+ *             "method"="post",
+ *             "path"="/shared_contacts/share_with_email",
+ *             "input"=ShareWithEmailInput::class,
+ *             "security_post_denormalize"="is_granted('ROLE_ADMIN') or object.getOwner() == user"
+ *         }
  *     },
  *     itemOperations={
  *         "get"={"security"="is_granted('ROLE_ADMIN') or object.getSharedWith() == user or object.getOwner() == user"},
