@@ -4,28 +4,30 @@ namespace App\Extension;
 
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Extension\QueryCollectionExtensionInterface;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Util\QueryNameGeneratorInterface;
-use App\Entity\Contact;
-use App\Entity\SharedContact;
+use App\Extension\UserFilters\UserFilterInterface;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * Provides result filtering for API listings.
- *
- * Currently the following filters are implemented:
- *  - Only users own contacts are listed. For admin all contacts are listed.
- *  - For shared contacts, only contacts shared by or with the user are listed. For admin all contacts are listed.
+ * Provides result filtering for API listings based on current user.
  */
 class UserFilteringExtension implements QueryCollectionExtensionInterface
 {
+    /**
+     * @var UserFilterInterface[]
+     */
+    private $filters;
     /**
      * @var Security
      */
     private $security;
 
-    public function __construct(Security $security)
+    public function __construct(array $filters, Security $security)
     {
+        $this->filters = $filters;
         $this->security = $security;
+
     }
 
     public function applyToCollection(
@@ -33,20 +35,37 @@ class UserFilteringExtension implements QueryCollectionExtensionInterface
         QueryNameGeneratorInterface $queryNameGenerator,
         string $resourceClass,
         string $operationName = null
-    )
-    {
-        if ($this->security->isGranted('ROLE_ADMIN')) // allow all for admin.
-        {
+    ) {
+        if ($this->isUnfiltered()) {
             return;
         }
 
-        if (Contact::class === $resourceClass) {
-            $queryBuilder->where('o.owner = :user')
-                ->setParameter(':user', $this->security->getUser());
-        } elseif (SharedContact::class === $resourceClass) {
-            $queryBuilder->innerJoin(Contact::class, 'c')
-                ->where('o.sharedWith = :user or c.owner = :user')
-                ->setParameter(':user', $this->security->getUser());
+        $user = $this->getUser();
+
+        foreach ($this->filters as $filter) {
+            if ($filter->supports($resourceClass, $operationName)) {
+                $filter->applyToCollection($user, $queryBuilder, $queryNameGenerator, $resourceClass, $operationName);
+            }
         }
+    }
+
+    /**
+     * Returns if the current user is admin and the filters do not apply.
+     *
+     * @return bool
+     */
+    private function isUnfiltered(): bool
+    {
+        return $this->security->isGranted('ROLE_ADMIN');
+    }
+
+    /**
+     * Retrieve current user instance.
+     *
+     * @return UserInterface
+     */
+    private function getUser(): UserInterface
+    {
+        return $this->security->getUser();
     }
 }

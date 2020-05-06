@@ -41,3 +41,9 @@ services:
         factory: '\libphonenumber\PhoneNumberUtil::getInstance'
 
     App\DataTransformer\ShareWithEmailInputDataTransformer: ~
+
+    App\Extension\UserFilteringExtension:
+        arguments:
+            $filters:
+                - '@App\Extension\UserFilters\UserContactFilter'
+                - '@App\Extension\UserFilters\UserSharedContactsFilter'
